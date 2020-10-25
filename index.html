@@ -1,372 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> 
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>COVID-19 Prediction</title>
     <link rel="stylesheet" href="style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-   
+    <script src="js/uPlot.iife.min.js"></script>
+    <link rel="stylesheet" href="css/uPlot.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="js/states.js"></script>
+    <script src="js/load_data.js"></script>
 </head>
+
 <body>
-    <!-- <base target ="_blank"> -->
-    
-    <!-- Head Start -->
-    <div class="head w">
-        <div class="logo">
-            <a href = "https://www.brandeis.edu/"><img src="images/Brandeis_logo2.png" alt="Brandeis University"></a>
+    <header class="head w">
+        <div class="row-group">
+            <div class="logo">
+                <a href="https://www.brandeis.edu/"><img src="images/Brandeis_logo2.png" alt="Brandeis University"></a>
+            </div>
+            <div class="nav">
+                <h2>COVID-19 Trend Prediction</h2>
+            </div>
         </div>
-        
-        <div class="nav">
-            <h1>COVID-19 Trend Prediction</h1>
-        </div>
-        
-        <form autocomplete="off" action="/action_page.php">
+        <div class="row-group">
+            <div class="about">
+                <a href="#">About</a>
+            </div>
             <div class="search">
-                <div class="autocomplete" style="width:300px;">
-                    <input type="text" value= 'Alabama' id='searchbox'>
+                <div class="autocomplete">
+                    <input type="text" placeholder="Alabama" id='searchbox'>
                 </div>
-                <button type='button' class='search_btn' ></button>
+                <button class="search_btn">
+                    <img src="https://icongr.am/octicons/search.svg?size=24&color=ffffff" alt="search">
+                </button>
+                <script src="js/autocomplete.js"></script>
             </div>
-        </form>
-        <script src="JS files/search_bar_function.js"></script>
-        <script src="./JS files/autocomplete.js"></script>
-            
-        <div class="dropdown">
-            <button onclick="myFunction()" class="dropbtn">Team</button>
-                <div id="myDropdown" class="dropdown-content">
-                <a href="javascript:;">Frank Liu</a>
-                <a href="javascript:;">Frank Liu</a>
-                <a href="javascript:;">Frank Liu</a>
-                </div>
         </div>
-        <script src="./JS files/about_column.js"></script>
-    </div>
-    <!-- Head End -->
-    <div class="subnav">
-        <div class="menu">
-            <!-- <ul>
-                <li><a href="javascript:;">Home</a></li>
-                <li><a href="javascript:;">Home</a></li>
-                <li><a href="javascript:;">Home</a></li>
-                <li><a href="javascript:;">Home</a></li>
-                <li><a href="javascript:;">Home</a></li>
-                <li><a href="javascript:;">Home</a></li>
-            </ul> -->
-        </div>
-    </div>
+    </header>
 
-    <div class="banner">
-        <div class="w">
-            <div class="total_case">
-                <h3 style="text-align: center;">Total Comfirmed in United States</h3>
-
+    <main>
+        <aside class="stats-container">
+            <div class="total_case gauge">
+                <h3 style="text-align: center">Total Confirmed in the U.S.</h3>
+                <div id="total-count"></div>
             </div>
-
-            <div class="geodata">
-                
-                <table id='corona_tb'  cellpadding='0' cellspacing = '0' >
-                    <caption >Confirmed Cases by States <span><button class="compare_btn" onclick="GetSelected()">Update</button></span></caption>
+    
+            <div class="geodata gauge">
+    
+                <h3 style="text-align: center">Confirmed Cases by States</h3>
+                <table id='corona_tb' cellpadding='0' cellspacing='0'>
                     <thead>
-                        <tr >
-                            <th><span class='text'>Confirmed Cases</span></th>
-                            <th><span class='text'>Predicted Cases</span></th>
-                            <th><span class='text'>States </span></th>
-                            <th><span class="text">checkbox</span></th>
+                        <tr>
+                            <th><span class='text'>Confirmed</span></th>
+                            <th><span class='text'>Predicted</span></th>
+                            <th><span class='text'>State</span></th>
+                            <th><span class="text"></span></th>
                         </tr>
                     </thead>
                     <tbody id='j_tb'>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                            
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr><tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>123123</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
                     </tbody>
                 </table>
-                <script src = 'JS files/trs_color_change.js'></script>
-                <script src="./JS files/state_chart.js"></script>
-                
+                <script src="js/statistics.js"></script>
+    
             </div>
-        </div>
-
-        <div class="chart">
+        </aside>
+        <div class="chart gauge">
             <div class="tab_list">
                 <ul class="all">
-                    <li class='current'>
-                       Overall
-                    </li>
-    
-                    <li>
-                       Confirmed Cases  
-                    </li>
-    
-                    <li>
-                        Predicted Cases
-                    </li>
-
+                    <li class='current'>Overall</li>
+                    <li>Confirmed Cases</li>
+                    <li>Predicted Cases</li>
                 </ul>
             </div>
             <div class="tab_cont">
-                <div class="item" id="chartContainer" style="height: 100%; width: 100%;"></div>
-                <div class="item" id="chartContainer2" style="height: 380px; width: 1070px;"></div>
-                <div class="item" id="chartContainer3" style="height: 380px; width: 1070px;"></div>
+                <div class="item" id="chartContainer"></div>
             </div>
-            <script src ="JS files/switch_graph.js"></script>
-            <script src="./JS files/demo_graph.js"></script>
 
-            
-            <!-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
-            <script src="./JS files/canvasjs.min.js"></script>
+            <script src="js/switch_graph.js"></script>
+            <script src="js/demo_graph.js"></script>
+            <script src="js/main.js"></script>
+            <!-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+            <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
         </div>
-    </div>
+    </main>
 </body>
-<!-- <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script> -->
-<script src="./JS files/jquery.canvasjs.min.js"></script>
 
 </html>
