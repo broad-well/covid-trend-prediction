@@ -5,7 +5,7 @@ const nationalTimeSeries = {}; // TODO
 function loadAllTimeSeries() {
     return new Promise((res, _) => {
         console.time('loading')
-        Papa.parse('/data/predict.csv', {
+        Papa.parse('data/predict.csv', {
             download: true,
             header: true,
             step: s => {
