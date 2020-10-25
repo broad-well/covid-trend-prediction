@@ -1,6 +1,6 @@
 // { MA: { times: [...], predicted: [...], confirmed: [...] } }
 const allTimeSeries = {};
-const nationalTimeSeries = {}; // TODO
+let nationalTimeSeries = [];
 
 function loadAllTimeSeries() {
     return new Promise((res, _) => {
@@ -22,6 +22,9 @@ function loadAllTimeSeries() {
                 for (const state in allTimeSeries) {
                     aggregate(allTimeSeries[state].predicted);
                     aggregate(allTimeSeries[state].confirmed);
+                    if (allTimeSeries[state].times.length > nationalTimeSeries.length) {
+                        nationalTimeSeries = [...allTimeSeries[state].times];
+                    }
                 }
                 res();
             }

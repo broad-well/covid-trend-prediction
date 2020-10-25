@@ -3,14 +3,20 @@ const colorSet = ['blue', 'red', 'darkgreen', 'purple', 'gray'];
 function initialState() {
     // highly dependent on layout
     const chartWidth = window.innerWidth - $('.stats-container').outerWidth() - 10;
-    const chartHeight = window.innerHeight - $('header').outerHeight() - 16 - 39;
+    const chartHeight = window.innerHeight - $('header').outerHeight() - 16 /*margin*/ - 39 /*tabs*/;
     const options = {
         id: 'chart',
         width: chartWidth,
         height: chartHeight,
-        series: [],
+        series: [
+            {
+                show: true,
+                label: 'Date',
+                value: (_, rawValue) => new Date(rawValue * 1000).toISOString().slice(0, 10)
+            }
+        ],
         legend: {
-            show: false
+            show: true
         }
     };
     return {
@@ -37,35 +43,29 @@ function updatePlot(state) {
             dash: dashed ? [10, 5] : []
         };
     }
+    function prepad(array, targetLen) {
+        return new Array(targetLen - array.length).fill(0).concat(array);
+    }
 
-    const xaxis = Array.from(new Set(state.states.map(
-        postal => allTimeSeries[postal].times).reduce((a, b) => a.concat(b), []))).sort();
+    const xaxis = nationalTimeSeries;
     const data = [xaxis];
-    const series = [
-        {
-            show: true,
-            label: 'Date',
-            value: (_, rawValue) => new Date(rawValue * 1000).toISOString().slice(0, 10)
-        }
-    ];
+    const series = [];
     for (let i = 0; i < state.states.length; i++) {
         const postal = state.states[i];
         if (state.actual) {
-            data.push(allTimeSeries[postal].confirmed);
+            data.push(prepad(allTimeSeries[postal].confirmed, nationalTimeSeries.length));
             series.push(lineSeries(postal, 'Actual', colorSet[i], false));
         }
         if (state.predicted) {
-            data.push(allTimeSeries[postal].predicted);
+            data.push(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length));
             series.push(lineSeries(postal, 'Predicted', colorSet[i], true));
         }
     }
 
-    console.info(data, series);
-
     plot.batch(() => {
         plot.setData(data);
         // HACK can we replace the series directly?
-        while (plot.series.length > 0) plot.delSeries(0);
+        while (plot.series.length > 1) plot.delSeries(plot.series.length - 1);
         for (const serie of series) plot.addSeries(serie);
     });
 }

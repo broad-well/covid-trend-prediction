@@ -376,4 +376,26 @@ main .chart {
 }
 /* Chart tab content End */
 
+/* Fixed chart legend size */
+.u-legend {
+  height: 30px;
+  position: absolute;
+  top: 20px;
+  left: 64px;
+  text-align: left;
+}
+
+/* Reposition legend to top left of graph */
+.uplot {
+  position: relative;
+}
+
+.u-series {
+  display: table-row;
+  line-height: 1;
+}
+.u-series th {
+  display: table-cell;
+}
+
 /* General Chart End */

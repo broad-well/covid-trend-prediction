@@ -19,6 +19,11 @@ function populateStateCounters() {
 }
 
 function toggleStateCheckbox(name) {
+    if ($('input.check').filter(':checked').length >= colorSet.length)
+        $('input.check:not(:checked)').attr('disabled', 'true');
+    else
+        $('input.check').removeAttr('disabled');
+
     const postal = kAllStates[name];
     const idx = mainState.states.indexOf(postal);
     if (idx === -1) {
@@ -28,14 +33,6 @@ function toggleStateCheckbox(name) {
     }
     updatePlot(mainState);
 }
-
-// Check 3 checkbox and disabled the rest of them
-$('.check').change(function(){
-    if($('input.check').filter(':checked').length == 3)
-        $('input.check:not(:checked)').attr('disabled', 'disabled');
-    else
-        $('input.check').removeAttr('disabled');
-});
 
 function populateTotal() {
     // Sum all latest # of confirmed cases
