@@ -14,14 +14,14 @@ function loadAllTimeSeries() {
                 if (State === undefined) return;
                 if (!(State in allTimeSeries)) allTimeSeries[State] = {times: [], predicted: [], confirmed: []};
                 allTimeSeries[State].times.push(timestamp);
-                allTimeSeries[State].predicted.push(parseInt(Predicted));
-                allTimeSeries[State].confirmed.push(parseInt(Confirmed));
+                allTimeSeries[State].predicted.push(Math.round(parseFloat(Predicted)));
+                allTimeSeries[State].confirmed.push(Math.round(parseFloat(Confirmed)));
             },
             complete: () => {
                 console.timeEnd('loading');
                 for (const state in allTimeSeries) {
-                    aggregate(allTimeSeries[state].predicted);
-                    aggregate(allTimeSeries[state].confirmed);
+                    // aggregate(allTimeSeries[state].predicted);
+                    // aggregate(allTimeSeries[state].confirmed);
                     if (allTimeSeries[state].times.length > nationalTimeSeries.length) {
                         nationalTimeSeries = [...allTimeSeries[state].times];
                     }

@@ -1,8 +1,8 @@
 function populateStateCounters() {
     function stateCounter(name) {
         const { predicted, confirmed } = allTimeSeries[kAllStates[name]];
-        const predict = predicted[predicted.length - 1];
-        const confirm = confirmed[confirmed.length - 1];
+        const predict = predicted.reduce((a, b) => a + b, 0);
+        const confirm = confirmed.reduce((a, b) => a + b, 0);
         return $(`<tr>
             <td>${confirm}</td>
             <td>${predict}</td>
@@ -37,7 +37,7 @@ function toggleStateCheckbox(name) {
 function populateTotal() {
     // Sum all latest # of confirmed cases
     const total = Object.keys(allTimeSeries)
-        .map(state => allTimeSeries[state].confirmed[allTimeSeries[state].confirmed.length - 1])
-        .reduce((a, b) => a + b);
+        .map(state => allTimeSeries[state].confirmed.reduce((a, b) => a + b, 0))
+        .reduce((a, b) => a + b, 0);
     $('#total-count').text(total);
 }
