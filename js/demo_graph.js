@@ -66,11 +66,11 @@ function updatePlot(state) {
     for (let i = 0; i < state.states.length; i++) {
         const postal = state.states[i];
         if (state.actual) {
-            data.push(last(smoothedActual(prepad(trailingNegsToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length)), state.suffixLen));
+            data.push(last(smoothedActual(prepad(trailingNegsToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length), 0.3), state.suffixLen));
             series.push(lineSeries(postal, 'Actual', colorSet[i], false));
         }
         if (state.predicted) {
-            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length)), state.suffixLen));
+            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), 0.15), state.suffixLen));
             series.push(lineSeries(postal, 'Predicted', colorSet[i], true));
         }
     }
@@ -83,8 +83,7 @@ function updatePlot(state) {
     });
 }
 
-function smoothedActual(seriesOrig) {
-    const smoothConstant = 0.3;
+function smoothedActual(seriesOrig, smoothConstant) {
     const series = [seriesOrig[0]];
     for (let i = 1; i < seriesOrig.length && seriesOrig[i] !== null; i++) {
         series.push(Math.round(smoothConstant * seriesOrig[i - 1] + (1 - smoothConstant) * series[i - 1]));
