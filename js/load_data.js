@@ -14,8 +14,11 @@ function loadAllTimeSeries() {
                 if (State === undefined) return;
                 if (!(State in allTimeSeries)) allTimeSeries[State] = {times: [], predicted: [], confirmed: []};
                 allTimeSeries[State].times.push(timestamp);
-                allTimeSeries[State].predicted.push(Math.round(parseFloat(Predicted)));
-                allTimeSeries[State].confirmed.push(Math.round(parseFloat(Confirmed)));
+                const confirmed = Math.round(parseFloat(Confirmed));
+                const predicted = Math.round(parseFloat(Predicted));
+
+                allTimeSeries[State].confirmed.push(confirmed);
+                allTimeSeries[State].predicted.push(predicted === -1 ? confirmed : predicted);
             },
             complete: () => {
                 console.timeEnd('loading');

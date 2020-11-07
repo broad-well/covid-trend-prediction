@@ -50,9 +50,9 @@ function updatePlot(state) {
     function last(array, len) {
         return array.slice(array.length - len, array.length);
     }
-    function trailingZerosToNull(array) {
+    function trailingNegsToNull(array) {
         for (let i = array.length - 1; i >= 0; i--) {
-            if (array[i] === 0)
+            if (array[i] === -1)
                 array[i] = null;
             else
                 return array;
@@ -66,11 +66,11 @@ function updatePlot(state) {
     for (let i = 0; i < state.states.length; i++) {
         const postal = state.states[i];
         if (state.actual) {
-            data.push(last(smoothedActual(prepad(trailingZerosToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length)), state.suffixLen));
+            data.push(last(smoothedActual(prepad(trailingNegsToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length)), state.suffixLen));
             series.push(lineSeries(postal, 'Actual', colorSet[i], false));
         }
         if (state.predicted) {
-            data.push(last(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), state.suffixLen));
+            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length)), state.suffixLen));
             series.push(lineSeries(postal, 'Predicted', colorSet[i], true));
         }
     }
