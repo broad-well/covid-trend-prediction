@@ -70,7 +70,7 @@ function updatePlot(state) {
             series.push(lineSeries(postal, 'Actual', colorSet[i], false));
         }
         if (state.predicted) {
-            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), 0.15), state.suffixLen));
+            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), 0.3), state.suffixLen));
             series.push(lineSeries(postal, 'Predicted', colorSet[i], true));
         }
     }
