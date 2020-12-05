@@ -24,11 +24,12 @@ function initialState() {
         actual: true,
         predicted: true,
         suffixLen: 100,
-        plot: new uPlot(options, [], document.getElementById('chartContainer'))
+        plot: new uPlot(options, [], document.getElementById('chartContainer')),
+        smooth: 1 / (1 + Math.exp(2 / 3))
     };
 }
 
-// state example: { states: ['CA', 'FL', 'MA'], actual: true, predicted: false, suffixLen: 50, plot: ? }
+// state example: { states: ['CA', 'FL', 'MA'], actual: true, predicted: false, suffixLen: 50, smooth: 0.3, plot: ? }
 function updatePlot(state) {
     const plot = state.plot;
     function lineSeries(postal, labelSuffix, color, dashed) {
@@ -66,11 +67,11 @@ function updatePlot(state) {
     for (let i = 0; i < state.states.length; i++) {
         const postal = state.states[i];
         if (state.actual) {
-            data.push(last(smoothedActual(prepad(trailingNegsToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length), 0.3), state.suffixLen));
+            data.push(last(smoothedActual(prepad(trailingNegsToNull(allTimeSeries[postal].confirmed), nationalTimeSeries.length), state.smooth), state.suffixLen));
             series.push(lineSeries(postal, 'Actual', colorSet[i], false));
         }
         if (state.predicted) {
-            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), 0.3), state.suffixLen));
+            data.push(last(smoothedActual(prepad(allTimeSeries[postal].predicted, nationalTimeSeries.length), state.smooth), state.suffixLen));
             series.push(lineSeries(postal, 'Predicted', colorSet[i], true));
         }
     }
@@ -92,4 +93,11 @@ function smoothedActual(seriesOrig, smoothConstant) {
         series.push(null);
     }
     return series;
+}
+
+// called by onchange
+function changeSmoothness(value) {
+    const coefficient = 1 / (1 + Math.exp(value / 3));
+    mainState.smooth = coefficient;
+    updatePlot(mainState);
 }

@@ -66,6 +66,12 @@
                 <script src="js/statistics.js"></script>
     
             </div>
+            <div id="control" class="gauge">
+                <label for="smoothness">
+                    <b>Smoothing</b>
+                </label>
+                <input type="range" min="-10" max="10" id="smoothness" onchange="changeSmoothness(this.value)" value="2">
+            </div>
         </aside>
         <div class="chart gauge">
             <div class="tab_list">
