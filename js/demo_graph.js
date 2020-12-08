@@ -87,7 +87,7 @@ function updatePlot(state) {
 function smoothedActual(seriesOrig, smoothConstant) {
     const series = [seriesOrig[0]];
     for (let i = 1; i < seriesOrig.length && seriesOrig[i] !== null; i++) {
-        series.push(Math.round(smoothConstant * seriesOrig[i - 1] + (1 - smoothConstant) * series[i - 1]));
+        series.push(Math.round(smoothConstant * seriesOrig[i] + (1 - smoothConstant) * series[i - 1]));
     }
     while (series.length < seriesOrig.length) {
         series.push(null);

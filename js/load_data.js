@@ -3,6 +3,11 @@ const allTimeSeries = {};
 let nationalTimeSeries = [];
 
 function loadAllTimeSeries() {
+    function parseDate(date) {
+        const [year, month, day] = date.split('/').map(it => parseInt(it));
+        return Date.UTC(year, month - 1, day);
+    }
+
     return new Promise((res, _) => {
         console.time('loading')
         Papa.parse('data/predict.csv', {
@@ -10,7 +15,7 @@ function loadAllTimeSeries() {
             header: true,
             step: s => {
                 const { Date: dateString, State, Predicted, Confirmed } = s.data;
-                const timestamp = new Date(dateString).getTime() / 1000;
+                const timestamp = parseDate(dateString) / 1000;
                 if (State === undefined) return;
                 if (!(State in allTimeSeries)) allTimeSeries[State] = {times: [], predicted: [], confirmed: []};
                 allTimeSeries[State].times.push(timestamp);
