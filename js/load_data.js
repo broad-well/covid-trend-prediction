@@ -4,7 +4,7 @@ let nationalTimeSeries = [];
 
 function loadAllTimeSeries() {
     function parseDate(date) {
-        const [year, month, day] = date.split('/').map(it => parseInt(it));
+        const [year, month, day] = date.split('-').map(it => parseInt(it));
         return Date.UTC(year, month - 1, day);
     }
 
